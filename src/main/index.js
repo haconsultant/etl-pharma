@@ -4,6 +4,16 @@ import { app, BrowserWindow, Menu, Tray } from 'electron'
 import path from 'path'
 
 /**
+ * Auto Updater
+ *
+ * Uncomment the following code below and install `electron-updater` to
+ * support auto updating. Code Signing with a valid certificate is required.
+ * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-electron-builder.html#auto-updating
+ */
+
+// import { autoUpdater } from 'electron-updater'
+
+/**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
@@ -60,7 +70,9 @@ function createTray () {
   tray.setContextMenu(contextMenu)
 }
 
-app.on('ready', readyApp)
+app.on('ready', () => {
+  readyApp()
+})
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -73,3 +85,11 @@ app.on('activate', () => {
     createWindow()
   }
 })
+
+/* autoUpdater.on('update-downloaded', () => {
+  autoUpdater.quitAndInstall()
+})
+
+/* app.on('ready', () => {
+  if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
+}) */

@@ -114,8 +114,11 @@
             </v-card>
             <div class="stepper__footer">
                 <v-layout align-center justify-end>
-                    <v-btn large color="primary" @click="nextStep()">
+                    <v-btn router to="/Home" large color="primary" @click="nextStep()">
                         Finalizar
+                    </v-btn>
+                    <v-btn large color="primary" @click="reset()">
+                        Reset
                     </v-btn>
                 </v-layout>
             </div>
@@ -124,6 +127,7 @@
 </template>
 <script>
 import { mssqlServerConnection, mssqlConectDataBase, mssqlGetClientInventory } from '@/utils/server/mssql'
+import { saveDatabaseConfig, resetDatabase } from '@/utils/db/localdb'
 import { sycnInventory } from '@/utils/api/inventory'
 export default {
   data: () => ({
@@ -160,6 +164,11 @@ export default {
       if (this.timeMinutes < 10) {
         this.timeMinutes = ('0' + this.timeMinutes).slice(-2)
       }
+    },
+    step () {
+      if (this.step === 4) {
+        this.saveConnectionConfig()
+      }
     }
   },
   mouted () {
@@ -192,14 +201,19 @@ export default {
     startSync () {
       this.isSync = false
       mssqlGetClientInventory(this.config, this.databaseType).then(response => {
-        console.log('DATABASE--CHECK' + response)
+        console.log(response.length())
         this.result = response
       }).then(() => {
         sycnInventory(this.result).then(response => {
-          console.log('API--CHECK')
           this.isSync = false
         })
       })
+    },
+    saveConnectionConfig () {
+      saveDatabaseConfig('905cf401-c38f-4f72-8df4-662cb8ff621e', this.config)
+    },
+    reset () {
+      resetDatabase()
     },
     nextStep () {
       if (this.step <= 4) {

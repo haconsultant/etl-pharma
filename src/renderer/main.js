@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import axios from 'axios'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css'
 
@@ -7,13 +8,17 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+import db from './datastore'
+
+Vue.prototype.$db = db
+
 Vue.use(Vuetify, {
   theme: {
-    primary: '#80DEEA',
-    secondary: '#B9F6CA',
-    accent: '#C5E1A5',
-    error: '#FF5252',
-    warning: '#FDD835',
+    primary: '#00E5FF',
+    secondary: '#00B8D4',
+    accent: '#00ACC1',
+    error: '#E53935',
+    warning: '#FFE57F',
     info: '#BDBDBD',
     success: '#4caf50'
   }
