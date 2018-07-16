@@ -74,7 +74,7 @@
                             <v-card-text>
                                 <v-layout row>
                                     <v-flex class="pr-3">
-                                        <v-slider label="m:" v-model="timeMinutes" :max="59" :min="0"></v-slider>
+                                        <v-slider label="m:" v-model="timeMinutes" :max="59" :min="5"></v-slider>
                                     </v-flex>
                                     <v-flex shrink style="width: 60px">
                                         <v-text-field v-model="timeMinutes" class="mt-0" hide-details single-line type="number"></v-text-field>

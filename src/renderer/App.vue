@@ -35,6 +35,7 @@ export default {
     cron: {}
   }),
   created () {
+    this.usarData()
     this.checkConfigState()
     this.$bus.on('add-todo', () => {
       this.checkConfigState()
@@ -48,6 +49,10 @@ export default {
     this.$bus.off('cron-running')
   },
   methods: {
+    usarData () {
+      console.log('Hallo!')
+      this.$router.push('/Connection/Walkthrough')
+    },
     stopCronJob () {
       this.cron.cancel()
     },

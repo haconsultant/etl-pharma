@@ -547,5 +547,36 @@ export const efficasis = {
     'VeVended',
     'VeZona'
   ],
-  query: 'SELECT  E.TxDescrip AS \'product_name\', CONVERT (VARCHAR(50), A.CosUnit,128) AS price,A.Cantidad AS quantity ,B.CoBarra AS product_barcode,CA.Descripcion AS \'uses\',DA.Nombre AS component,BA.Nbmarca AS brand, BB.Nombre as category FROM InArticu A INNER JOIN InCatalo B ON B.Coarticulo = A.Coarticulo INNER JOIN InAplArt C ON C.Coarticulo = A.Coarticulo INNER JOIN InAplica CA ON CA.CoAplica = C.CoAplica INNER JOIN InComArt D ON D.Coarticulo = A.Coarticulo INNER JOIN InCompon DA ON DA.CoCompo = D.CoCompo INNER JOIN InEtiPMA E ON E.Coarticulo = A.Coarticulo LEFT JOIN AAMarca BA ON BA.Comarca = B.Comarca LEFT JOIN InClases BB ON BB.CoClaArtic = B.CoClaArtic GROUP BY BA.Nbmarca, E.TxDescrip, A.CostoPonderado, B.CoBarra, CA.Descripcion, DA.Nombre, BB.Nombre,A.CosUnit,A.Cantidad'
+  query: `SELECT distinct
+   ISNULL(B.Descrip1art, 'n/a') AS product_name,
+   CONVERT (VARCHAR(50), A.CosUnit,128) AS price,
+   CONVERT (VARCHAR(50), A.Cantidad,128) AS quantity,
+   B.CoBarra AS product_barcode,
+   ISNULL(CA.Descripcion, 'n/a') AS 'uses',
+   ISNULL(DA.Nombre, 'n/a') AS component,
+   ISNULL(BA.Nbmarca, 'n/a') AS brand,
+   BB.Nombre as category 
+FROM InArticu A 
+   LEFT JOIN
+      InCatalo B 
+      ON B.Coarticulo = A.Coarticulo 
+   LEFT JOIN
+      InAplArt C 
+      ON C.Coarticulo = A.Coarticulo 
+   LEFT JOIN
+      InAplica CA 
+      ON CA.CoAplica = C.CoAplica 
+   LEFT JOIN
+      InComArt D 
+      ON D.Coarticulo = A.Coarticulo 
+   LEFT JOIN
+      InCompon DA 
+      ON DA.CoCompo = D.CoCompo 
+   LEFT JOIN
+      AAMarca BA 
+      ON BA.Comarca = B.Comarca 
+   LEFT JOIN
+      InClases BB 
+     ON BB.CoClaArtic = B.CoClaArtic 
+WHERE B.CoBarra <> '' AND  A.CosUnit>0 AND A.Cantidad >0 AND  B.Descrip1art <> ''`
 }
