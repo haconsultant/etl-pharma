@@ -66,7 +66,11 @@ export function mssqlConectDataBase (config) {
 }
 
 export function mssqlGetClientInventory (config, database) {
-  var result = []
+  var result = {
+    id_pharmacy: 'e14eb660-0ac4-11e8-bb60-6b00ccec6303',
+    id_pharmacy_branch: 'c8a72ed0-0add-11e8-bbbc-f7ade388ac6c',
+    inventory: []
+  }
   var deferred = q.defer() // create a promise
   var connection = new Connection(config)
   connection.on('connect', function (err) {
@@ -78,19 +82,18 @@ export function mssqlGetClientInventory (config, database) {
         if (err) {
           deferred.resolve(err)
         } else {
+          // console.log(result)
           deferred.resolve(result)
         }
       })
       request.on('doneInProc', function (rowCount, more, rows) {
         rows.forEach(columns => {
           var rowObject = {}
+          rowObject.generic = true
           columns.forEach(column => {
-            rowObject.id_pharmacy = '8bbcfcae-ab1b-43ba-82d1-17a6b8bf0d30'
-            rowObject.id_pharmacy_branch = 'b9c33281-d4d2-44e2-969d-412d4a493ae4'
-            rowObject.generic = true
             rowObject[column.metadata.colName] = column.value
           })
-          result.push(rowObject)
+          result.inventory.push(rowObject)
         })
       })
       connection.execSql(request)

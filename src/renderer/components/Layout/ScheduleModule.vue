@@ -1,8 +1,9 @@
 <template>
     <v-container class="item__container">
-        <v-card color="blue-grey lighten-5" class="fixed__card">
+        <v-card color="blue-grey lighten-5" id="cron__module" class="fixed__card">
             <v-card-title primary-title>
                 <div class="headline">Sincronización</div>
+                <v-btn @click="testingCRON()">Check-CRON</v-btn>
             </v-card-title>
             <v-card-actions>
                 <v-layout align-center justify-end class="large__title">
@@ -62,30 +63,24 @@
                         </v-card>
                     </v-list>
                 </v-card-text>
-                <div style="flex: 1 1 auto;"></div>
+                <div style="flex: 1 1 auto;">
+                    <!-- <cron></cron> -->
+                </div>
             </v-card>
         </v-dialog>
     </v-container>
 </template>
 
 <script>
+// import Cron from '@/components/Schedule/Cron'
 export default {
+  // components: { Cron },
   data () {
     return {
       stateSync: 'm',
       timeHours: '',
       timeMinutes: '',
-      dialog: false,
-      dataBaseName: [],
-      config: {
-        userName: 'sa',
-        password: '^DpYGW2ukEspaHZ7',
-        server: '159.203.86.203',
-        options: {
-          database: '',
-          rowCollectionOnDone: true
-        }
-      }
+      dialog: false
     }
   },
   watch: {
@@ -104,11 +99,21 @@ export default {
         this.timeMinutes = ('0' + this.timeMinutes).slice(-2)
       }
     }
+  },
+  methods: {
+    testingCRON () {
+      this.$bus.emit('global-testing')
+    }
   }
 }
 </script>
 
 <style>
+  #cron__module {
+    background-image: url('~@/assets/cron_module.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
   .fixed__card {
     display: flex;
     flex-flow: column;

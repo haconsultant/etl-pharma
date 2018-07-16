@@ -1,12 +1,17 @@
 <template>
     <v-container class="item__container">
-        <v-card color="blue-grey lighten-5" class="fixed__card">
+        <v-card color="blue-grey lighten-5" id="conn__module" class="fixed__card">
             <v-card-title primary-title>
                 <div class="headline">Base de Datos</div>
+                <v-btn @click="testingGlobal()">Global</v-btn>
             </v-card-title>
+            <v-card-text class="fluid__container"> 
+                <h1>{{activeDatabase}}</h1>
+                <p>{{'Servidor - ' + config.server}}</p>
+            </v-card-text>
             <v-card-actions>
-                <v-layout align-center justify-end class="large__title">
-                <v-btn  @click.stop="dialog = true">Configuracion<v-icon right dark>settings</v-icon></v-btn>
+                <v-layout align-center justify-end class="mid__title">
+                <v-btn @click="openConfig()">Configuracion<v-icon right dark>settings</v-icon></v-btn>
                 <v-btn router to="/connection/walkthrough">Paso a paso<v-icon right dark>list</v-icon></v-btn>
                 </v-layout>
             </v-card-actions>
@@ -58,15 +63,17 @@
 
 <script>
 import { mssqlServerConnection, mssqlConectDataBase } from '@/utils/server/mssql'
+
 export default {
   data () {
     return {
       dialog: false,
       dataBaseName: [],
+      activeDatabase: '',
       config: {
-        userName: 'sa',
-        password: '^DpYGW2ukEspaHZ7',
-        server: '159.203.86.203',
+        userName: '',
+        password: '',
+        server: '',
         options: {
           database: '',
           rowCollectionOnDone: true
@@ -74,7 +81,19 @@ export default {
       }
     }
   },
+  created () {
+    this.getConfigInfo()
+    this.getDetails()
+  },
   methods: {
+    testingGlobal () {
+      this.$bus.emit('add-todo')
+    },
+    openConfig () {
+      this.dialog = true
+      this.config = Object.assign({}, this.$store.state.database.config)
+      this.dataBaseName = this.$store.state.database.databases
+    },
     serverConnection () {
       this.connectSuccessful = true
       this.dataBaseQuantity = []
@@ -86,6 +105,19 @@ export default {
         this.nextStep()
         console.log(this.dataBaseName)
       })
+    },
+    getConfigInfo () {
+      let dataBaseConfig = Object.assign({}, this.$store.state.database.config)
+      let databases = this.$store.state.database.databases
+      this.config = Object.assign({}, dataBaseConfig)
+      this.dataBaseName = databases
+    },
+    getDetails () {
+      let current = this.$store.state.database.config.options.database === 'efficacis3' ? 'Effacis' : 'SmartPharma'
+      this.activeDatabase = current
+    },
+    saveDatabaseConfig () {
+      console.log('Saved')
     },
     connectDatabase () {
       mssqlConectDataBase(this.config).then(response => {
@@ -103,6 +135,14 @@ export default {
 </script>
 
 <style>
+  #conn__module {
+    background-image: url('~@/assets/conn_module.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .fluid__container {
+    flex: 1;
+  }
   .fixed__card {
     display: flex;
     flex-flow: column;
@@ -118,5 +158,8 @@ export default {
   }
   .large__title {
       padding: 2rem;
+  }
+  .mid__title {
+      padding: 1.5rem;
   }
 </style>

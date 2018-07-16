@@ -16,29 +16,45 @@
                 </v-container>
             </v-content>
             <v-footer :fixed="true" app>
+                <cron></cron>
                 <v-spacer></v-spacer>
-                <span>&copy; 2018</span>
+                <span class="spacing">&copy; 2018</span>
             </v-footer>
         </v-app>
     </div>
 </template>
 
 <script>
-import {CronJob} from 'cron'
+import Cron from '@/components/Schedule/Cron'
+import { globalConfig } from '@/utils/helpers/procesor'
 export default {
   name: 'etl-pharma',
+  components: { Cron },
   data: () => ({
-    title: 'ETL-Pharma'
+    title: 'ETL-Pharma',
+    cron: {}
   }),
   created () {
-    this.startCronJobs()
+    this.checkConfigState()
+    this.$bus.on('add-todo', () => {
+      this.checkConfigState()
+    })
+    this.$bus.on('cron-running', () => {
+      this.stopCronJob()
+    })
+  },
+  beforeDestroy () {
+    this.$bus.off('add-todo')
+    this.$bus.off('cron-running')
   },
   methods: {
-    startCronJobs () {
-      var cr = new CronJob('*/5 * * * * *', function () {
-        console.log('You will see this message every second')
-      }, null, true, 'America/Los_Angeles')
-      cr.start()
+    stopCronJob () {
+      this.cron.cancel()
+    },
+    checkConfigState () {
+      globalConfig('905cf401-c38f-4f72-8df4-662cb8ff621e').then(() => {
+        this.$bus.emit('start-cron')
+      })
     }
   }
 }
@@ -54,6 +70,9 @@ export default {
   }
   .content {
     height: 100vh;
+  }
+  .spacing {
+    padding: 0rem 2rem;
   }
   
 </style>

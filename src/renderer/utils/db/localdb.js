@@ -1,5 +1,6 @@
 import db from '@/datastore'
 import q from 'q'
+import store from '@/store'
 
 export function fecthDatabaseConfig (id) {
   var deferred = q.defer()
@@ -20,8 +21,8 @@ export function updateDatabaseConfig (id, data) {
       deferred.resolve(err)
       console.log(err)
     } else {
+      store.dispatch('saveDatabaseConfig', data)
       deferred.resolve(numReplaced)
-      console.log(numReplaced)
     }
   })
   return deferred.promise
@@ -35,8 +36,8 @@ export function insertDatabaseConfig (data) {
       deferred.resolve(err)
       console.log(err)
     } else {
+      store.dispatch('saveDatabaseConfig', data)
       deferred.resolve(newDoc)
-      console.log(newDoc)
     }
   })
   return deferred.promise
@@ -53,15 +54,18 @@ export function resetDatabase () {
 }
 
 export function saveDatabaseConfig (id, data) {
-  fecthDatabaseConfig(id).then(response => {
-    if (response === null) {
-      insertDatabaseConfig(data).then(response => {
-        console.log(response)
-      })
-    } else {
-      updateDatabaseConfig(id, data).then(response => {
-        console.log(response)
-      })
-    }
+  return new Promise((resolve, reject) => {
+    fecthDatabaseConfig(id).then(response => {
+      if (response === null) {
+        insertDatabaseConfig(data).then(response => {
+          console.log(response)
+        })
+      } else {
+        updateDatabaseConfig(id, data).then(response => {
+          console.log(response)
+        })
+      }
+    })
+    resolve()
   })
 }

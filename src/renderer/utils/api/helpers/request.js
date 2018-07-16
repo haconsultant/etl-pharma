@@ -2,7 +2,7 @@ import Axios from 'axios'
 
 // create an axios instance
 const services = Axios.create({
-  baseURL: 'http://localhost:8081/api/',
+  baseURL: 'http://pharma-inventories-receiver-experience-api.us-e2.cloudhub.io/api',
   mode: 'no-cors',
   headers: {
     'crossDomain': true
