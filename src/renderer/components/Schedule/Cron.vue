@@ -21,10 +21,10 @@ export default {
   },
   methods: {
     start () {
-      let timer = this.$store.state.schedule.timer
+      let timer = this.$store.state.schedule.cron
       let job
-      job = this.$cron.schedule(timer, function () {
-        console.log(`CRON Patter ${timer}`)
+      job = this.$cron.schedule(timer, () => {
+        this.$bus.emit('sycn')
       })
       this.cron = job
       this.cron.start()

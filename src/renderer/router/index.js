@@ -7,13 +7,23 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'welcome-view',
+      name: 'home',
       component: require('@/components/Home').default
     },
     {
       path: '/connection/walkthrough',
       name: 'walkthrough',
       component: require('@/components/Connection/Walkthrough').default
+    },
+    {
+      path: '/User/Login',
+      name: 'login',
+      component: require('@/components/User/Login').default
+    },
+    {
+      path: '/User/Wellcome',
+      name: 'login',
+      component: require('@/components/User/Componets/Wellcome').default
     },
     {
       path: '*',

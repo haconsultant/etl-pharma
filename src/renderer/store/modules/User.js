@@ -1,20 +1,25 @@
 const state = {
-  main: 0
+  info: {
+    id: '',
+    name: '',
+    password: '',
+    pharmacies: []
+  }
 }
 
 const mutations = {
-  DECREMENT_MAIN_COUNTER (state) {
-    state.main--
+  SAVE_USER_DATA (state, data) {
+    state.info = Object.assign({}, data)
+    console.log(state.user)
   },
-  INCREMENT_MAIN_COUNTER (state) {
-    state.main++
+  REMOVE_USER_DATA (state) {
+    state.info = {}
   }
 }
 
 const actions = {
-  someAsyncTask ({ commit }) {
-    // do something async
-    commit('INCREMENT_MAIN_COUNTER')
+  saveUserData ({ commit }, data) {
+    commit('SAVE_USER_DATA', data)
   }
 }
 

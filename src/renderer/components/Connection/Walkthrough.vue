@@ -17,9 +17,9 @@
                             <v-subheader class="headline">Servidor de Base de Datos</v-subheader>
                         </v-layout>
                         <v-form class="step__controls">
-                            <v-text-field v-model="config.server" label="Direcion del Servidor" required></v-text-field>
-                            <v-text-field v-model="config.userName" label="Usuario" required></v-text-field>
-                            <v-text-field v-model="config.password" label="Contraseña" required></v-text-field>
+                            <v-text-field v-model="config.server" label="Direcion del Servidor" outline required></v-text-field>
+                            <v-text-field v-model="config.userName" label="Usuario" outline required></v-text-field>
+                            <v-text-field v-model="config.password" label="Contraseña" outline required></v-text-field>
                             <v-layout align-center justify-center>
                                 <v-btn large @click="serverConnection">Conectarse</v-btn>
                             </v-layout>
@@ -126,9 +126,8 @@
     </v-stepper>
 </template>
 <script>
-import { mssqlServerConnection, mssqlConectDataBase, mssqlGetClientInventory } from '@/utils/server/mssql'
+import { mssqlServerConnection, mssqlConectDataBase } from '@/utils/server/mssql'
 import { saveDatabaseConfig, resetDatabase } from '@/utils/db/localdb'
-import { sycnInventory } from '@/utils/api/inventory'
 export default {
   data: () => ({
     configInfo: {},
@@ -202,18 +201,12 @@ export default {
     },
     startSync () {
       this.isSync = true
-      mssqlGetClientInventory(this.config, this.databaseType).then(response => {
-        this.result = response
-        console.log(this.result)
-      }).then(() => {
-        sycnInventory(this.result).then(response => {
-          this.isSync = false
-        })
-      })
+      this.$bus.emit('sycn')
     },
     saveConnectionConfig () {
       this.configInfo.config = this.config
       this.configInfo.cron = { hours: this.timeHours, minutes: this.timeMinutes }
+      this.configInfo.dataBaseType = this.databaseType
       saveDatabaseConfig('905cf401-c38f-4f72-8df4-662cb8ff621e', this.configInfo).then(() => {
         this.$bus.emit('reschedule-cron')
       })

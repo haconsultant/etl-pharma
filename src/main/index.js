@@ -30,10 +30,10 @@ const winURL = process.env.NODE_ENV === 'development'
   : `file://${__dirname}/index.html`
 
 function readyApp () {
-  createWindow()
-  createTray()
+  startComponents()
+  // createTray()
 }
-function createWindow () {
+function startComponents () {
   /**
    * Initial window options
    */
@@ -45,17 +45,19 @@ function createWindow () {
     maxWidth: 800,
     minWidth: 750,
     useContentSize: true,
+    frame: true,
     webPreferences: {webSecurity: false}
   })
 
   mainWindow.loadURL(winURL)
 
-  mainWindow.on('closed', () => {
-    mainWindow = null
+  mainWindow.on('close', (event) => {
+    if (!app.isQuiting) {
+      event.preventDefault()
+      mainWindow.hide()
+    }
+    return false
   })
-}
-
-function createTray () {
   tray = new Tray(iconPath)
   const contextMenu = Menu.buildFromTemplate([
     {label: 'Conexion', type: 'radio'},
@@ -63,26 +65,27 @@ function createTray () {
     {label: 'Ayuda', type: 'radio'},
     { label: 'Salir',
       accelerator: 'Command+Q',
-      selector: 'terminate:'
+      selector: 'terminate:',
+      click () { app.quit() }
     }
   ])
   tray.setToolTip('ETL - Herramienta de Migracion')
   tray.setContextMenu(contextMenu)
+
+  tray.on('double-click', () => {
+    mainWindow.show()
+  })
 }
 
 app.on('ready', () => {
   readyApp()
 })
 
-app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit()
-  }
-})
+app.on('window-all-closed', e => e.preventDefault())
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow()
+    startComponents()
   }
 })
 

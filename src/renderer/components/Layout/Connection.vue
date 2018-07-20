@@ -3,11 +3,11 @@
         <v-card color="blue-grey lighten-5" id="conn__module" class="fixed__card">
             <v-card-title primary-title>
                 <div class="headline">Base de Datos</div>
-                <v-btn @click="testingGlobal()">Global</v-btn>
+                <v-btn @click="testingGlobal()">Sync</v-btn>
             </v-card-title>
             <v-card-text class="fluid__container"> 
                 <h1>{{activeDatabase}}</h1>
-                <p>{{'Servidor - ' + config.server}}</p>
+                <p>{{'Servidor - ' + server}}</p>
             </v-card-text>
             <v-card-actions>
                 <v-layout align-center justify-end class="mid__title">
@@ -81,13 +81,19 @@ export default {
       }
     }
   },
+  computed: {
+    server () {
+      return this.$store.state.database.config.server
+    }
+  },
   created () {
     this.getConfigInfo()
     this.getDetails()
   },
   methods: {
     testingGlobal () {
-      this.$bus.emit('add-todo')
+      this.$bus.emit('sycn')
+      console.log(this.$store.state)
     },
     openConfig () {
       this.dialog = true

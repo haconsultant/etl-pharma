@@ -1,24 +1,30 @@
 <template>
     <v-card class="flex-fluid">
         <v-container class="full-flex">
-            <connection-module></connection-module>
+            <connection></connection>
         </v-container>
         <v-container class="full-flex">
-            <schedule-module></schedule-module>
+            <schedule></schedule>
         </v-container>
     </v-card>
 </template>
 
 <script>
-  import ConnectionModule from './Layout/ConnectionModule'
-  import ScheduleModule from './Layout/ScheduleModule'
+  import Connection from './Layout/Connection'
+  import Schedule from './Layout/Schedule'
 
   export default {
     name: 'welcome',
-    components: { ConnectionModule, ScheduleModule },
+    components: { Connection, Schedule },
+    created () {
+      // this.usarData()
+    },
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
+      },
+      usarData () {
+        this.$router.push('/User/Login')
       }
     }
   }

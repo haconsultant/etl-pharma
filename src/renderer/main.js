@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueBus from 'vue-bus'
 import axios from 'axios'
+import _ from 'lodash'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import Vuetify from 'vuetify'
 import 'vuetify/dist/vuetify.css'
@@ -9,11 +10,12 @@ import App from './App'
 import router from './router'
 import store from './store'
 import cron from 'node-cron'
-
 import db from './datastore'
 
+Vue.prototype.$_ = _
 Vue.prototype.$db = db
 Vue.prototype.$cron = cron
+
 Vue.use(VueBus)
 Vue.use(Vuetify, {
   theme: {

@@ -114,6 +114,9 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
   }
+  .dialog--fullscreen {
+      margin: 30px 0px;
+  }
   .fixed__card {
     display: flex;
     flex-flow: column;

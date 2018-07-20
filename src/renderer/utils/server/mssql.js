@@ -67,8 +67,9 @@ export function mssqlConectDataBase (config) {
 
 export function mssqlGetClientInventory (config, database) {
   var result = {
-    id_pharmacy: 'e14eb660-0ac4-11e8-bb60-6b00ccec6303',
-    id_pharmacy_branch: 'c8a72ed0-0add-11e8-bbbc-f7ade388ac6c',
+    id_pharmacy: '6d21da10-0aba-11e8-a6c9-2badf5b93cbb',
+    // id_pharmacy_branch: 'c8a72ed0-0add-11e8-bbbc-f7ade388ac6c',
+    id_pharmacy_branch: '801567f0-8acf-11e8-9695-25feeb8fbb57',
     inventory: []
   }
   var deferred = q.defer() // create a promise
