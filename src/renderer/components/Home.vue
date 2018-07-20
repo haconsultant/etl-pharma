@@ -1,5 +1,5 @@
 <template>
-    <v-card class="flex-fluid">
+    <v-card class="flex-fluid" id="home__box">
         <v-container class="full-flex">
             <connection></connection>
         </v-container>
@@ -22,15 +22,15 @@
     methods: {
       open (link) {
         this.$electron.shell.openExternal(link)
-      },
-      usarData () {
-        this.$router.push('/User/Login')
       }
     }
   }
 </script>
 
 <style scoped>
+  #home__box {
+    background: rgba(1, 153, 148, 0.88);
+  }
   .full-flex {
     display: flex;
   }

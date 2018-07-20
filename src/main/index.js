@@ -45,7 +45,7 @@ function startComponents () {
     maxWidth: 800,
     minWidth: 750,
     useContentSize: true,
-    frame: true,
+    frame: false,
     webPreferences: {webSecurity: false}
   })
 

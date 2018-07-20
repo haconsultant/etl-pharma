@@ -21,7 +21,7 @@ Vue.use(Vuetify, {
   theme: {
     primary: '#00E5FF',
     secondary: '#00B8D4',
-    accent: '#00ACC1',
+    accent: '#01928e',
     error: '#E53935',
     warning: '#FFE57F',
     info: '#BDBDBD',

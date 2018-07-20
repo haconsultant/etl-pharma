@@ -167,7 +167,7 @@ export default {
     },
     step () {
       if (this.step === 4) {
-        this.saveConnectionConfig()
+        // this.saveConnectionConfig()
       }
     }
   },
@@ -203,12 +203,13 @@ export default {
       this.isSync = true
       this.$bus.emit('sycn')
     },
-    saveConnectionConfig () {
+    finishWalkthrough () {
       this.configInfo.config = this.config
       this.configInfo.cron = { hours: this.timeHours, minutes: this.timeMinutes }
       this.configInfo.dataBaseType = this.databaseType
-      saveDatabaseConfig('905cf401-c38f-4f72-8df4-662cb8ff621e', this.configInfo).then(() => {
-        this.$bus.emit('reschedule-cron')
+      this.configInfo.pharmacyInfo = this.$store.state.user.pharmacy
+      saveDatabaseConfig(this.$store.state.global.id, this.configInfo).then(() => {
+        this.$bus.emit('cron')
       })
     },
     reset () {
@@ -237,7 +238,7 @@ export default {
 
 <style>
   .space__title {
-        padding: 4rem;
+    padding: 4rem;
     text-align: center;
   }
   .step__controls {

@@ -31,7 +31,6 @@ const actions = {
     commit('DATABASE_CONFIG', data.config)
   },
   avialableDatabases ({ commit }, data) {
-    console.log(data)
     commit('AVIALABLE_DATABASES', data)
   },
   currentDatabaseType ({ commit }, data) {

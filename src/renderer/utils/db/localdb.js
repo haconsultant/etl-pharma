@@ -54,6 +54,7 @@ export function resetDatabase () {
 }
 
 export function saveDatabaseConfig (id, data) {
+  console.log(data)
   return new Promise((resolve, reject) => {
     fecthDatabaseConfig(id).then(response => {
       if (response === null) {

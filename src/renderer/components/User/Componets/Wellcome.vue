@@ -94,8 +94,9 @@
         this.selectedPharmacyBranchId = id
       },
       nextStep () {
-        this.$router.push('/Connection/Walkthrough')
-        console.log(`id_pharmacy = ${this.selectedPharmacyId} / id_pharamcy_branch = ${this.selectedPharmacyBranchId}`)
+        this.$store.dispatch('pharmacyInfo', {id: this.selectedPharmacyId, idBranch: this.selectedPharmacyBranchId}).then(() => {
+          this.$router.push('/Connection/Walkthrough')
+        })
       },
       clean () {
         this.selectedPharmacyId = ''

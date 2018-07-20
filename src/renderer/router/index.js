@@ -17,12 +17,12 @@ export default new Router({
     },
     {
       path: '/User/Login',
-      name: 'login',
+      name: 'login_app',
       component: require('@/components/User/Login').default
     },
     {
       path: '/User/Wellcome',
-      name: 'login',
+      name: 'login_wellcome',
       component: require('@/components/User/Componets/Wellcome').default
     },
     {

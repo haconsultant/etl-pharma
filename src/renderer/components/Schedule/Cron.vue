@@ -8,16 +8,12 @@ export default {
     cron: ''
   }),
   created () {
-    this.$bus.on('start-cron', () => {
+    this.$bus.on('cron', () => {
       this.start()
-    })
-    this.$bus.on('reschedule-cron', () => {
-      this.reschedule()
     })
   },
   beforeDestroy () {
-    this.$bus.off('start-cron')
-    this.$bus.off('reschedule-cron')
+    this.$bus.off('start')
   },
   methods: {
     start () {
@@ -28,7 +24,6 @@ export default {
       })
       this.cron = job
       this.cron.start()
-      // console.log(this.$store.state.schedule.timer)
     },
     reschedule () {
       this.cron.destroy()

@@ -38,12 +38,6 @@ export default {
       v => !!v || 'Contraseña requerida'
     ],
     select: null,
-    items: [
-      'Item 1',
-      'Item 2',
-      'Item 3',
-      'Item 4'
-    ],
     checkbox: false
   }),
 
@@ -96,6 +90,10 @@ export default {
       box-shadow: 11px 10px 29px #03827f;
       background-color: rgba(1, 158, 155, 0.8);
     }
+    .login__form > h1 {
+      text-align: center;
+      padding: 1rem;
+    } 
     .login__box {
         width: 60vw;
         padding: 3rem;

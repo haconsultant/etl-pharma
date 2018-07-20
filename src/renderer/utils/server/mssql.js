@@ -1,4 +1,5 @@
 import _ from 'lodash'
+import store from '@/store'
 import { smartPharma, efficasis } from './helpers/schemas.js'
 
 var Connection = require('tedious').Connection
@@ -67,9 +68,9 @@ export function mssqlConectDataBase (config) {
 
 export function mssqlGetClientInventory (config, database) {
   var result = {
-    id_pharmacy: '6d21da10-0aba-11e8-a6c9-2badf5b93cbb',
+    id_pharmacy: store.state.user.pharmacy.id,
     // id_pharmacy_branch: 'c8a72ed0-0add-11e8-bbbc-f7ade388ac6c',
-    id_pharmacy_branch: '801567f0-8acf-11e8-9695-25feeb8fbb57',
+    id_pharmacy_branch: store.state.user.pharmacy.idBranch,
     inventory: []
   }
   var deferred = q.defer() // create a promise
