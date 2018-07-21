@@ -20,7 +20,7 @@ import path from 'path'
 if (process.env.NODE_ENV !== 'development') {
   global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
 }
-let iconPath = path.join(__static, 'v.png')
+let iconPath = path.join(__static, 'iconV2.png')
 
 let mainWindow
 let tray
